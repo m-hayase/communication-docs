@@ -3,7 +3,7 @@ layout: home
 hero:
   name: Communication
   text: Still the soul remains
-  tagline: by Soul.lock — AI統合型ビジネスプラットフォーム
+  tagline: After AIにおける新しい社会を作る
   actions:
     - theme: brand
       text: Features
