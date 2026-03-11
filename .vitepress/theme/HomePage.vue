@@ -14,15 +14,15 @@ const subtitle = 'Still the soul remains'
 const tagline = 'After AIにおける新しい社会を作る'
 
 const features = [
-  { num: '01', title: '業務網羅性', desc: 'チャット・CRM・会計・人事・購買・在庫など40以上のモジュールを統合。すべての業務を一つのプラットフォームで。' },
-  { num: '02', title: 'AI業務完結', desc: 'AIエージェントが定型業務を自動処理。人間は判断と承認に集中し、創造的な仕事に時間を使える。' },
-  { num: '03', title: 'データ主権', desc: 'テナント単位でデータを完全分離。セキュリティとプライバシーを確保し、安心して利用できる基盤。' },
+  { num: '01', title: '市場規模000兆円', desc: '日本の総人件費は巨大な未開拓市場。AIによる業務代替が進むことで、この市場の構造そのものが変わる。', note: '※AAA調べ' },
+  { num: '02', title: 'プロトタイプ開発2週間', desc: 'アイデアから動くプロダクトまで2週間。AI駆動の開発プロセスが、従来の開発速度を根本から覆す。', note: '' },
+  { num: '03', title: '仮想業務空間', desc: '業務のすべてをAIが行う仮想業務空間。人間は意思決定と創造に集中し、定型業務はAIが完結する。', note: '' },
 ]
 
 const stats = [
-  { value: '40+', label: 'Modules' },
-  { value: '24/7', label: 'AI Agent' },
-  { value: '100%', label: 'Data Isolation' },
+  { value: '000兆', label: '市場規模', note: '※AAA調べ' },
+  { value: '2週間', label: 'プロトタイプ開発' },
+  { value: '100%', label: 'AI業務完結' },
 ]
 
 let observer = null
@@ -113,6 +113,7 @@ onUnmounted(() => {
       <div v-for="(s, i) in stats" :key="i" class="stat-item obs glass-panel" :style="{ transitionDelay: i*0.12+'s' }">
         <span class="stat-val">{{ s.value }}</span>
         <span class="stat-lbl">{{ s.label }}</span>
+        <span v-if="s.note" class="stat-note">{{ s.note }}</span>
       </div>
     </div>
   </section>
@@ -126,7 +127,7 @@ onUnmounted(() => {
     <div class="feat-grid">
       <div v-for="(f, i) in features" :key="i" class="feat-card glass-panel obs" :style="{ transitionDelay: i*0.15+'s' }">
         <span class="feat-num">{{ f.num }}</span>
-        <h3>{{ f.title }}</h3>
+        <h3>{{ f.title }}<span v-if="f.note" class="feat-note">{{ f.note }}</span></h3>
         <p>{{ f.desc }}</p>
         <div class="feat-accent" />
       </div>
@@ -137,9 +138,9 @@ onUnmounted(() => {
   <section class="vision">
     <div class="vision-card glass-panel obs">
       <span class="sec-num">002</span>
-      <h2>AIと人間が<br/><span class="em-text">共創する未来</span>を<br/>実装する</h2>
+      <h2><span class="em-text">仮想業務空間</span>が<br/>人件費市場を<br/>再定義する</h2>
       <p class="vision-body">
-        私たちは、AIが人間の能力を拡張し、すべての人がより創造的な仕事に集中できる社会を目指しています。テクノロジーは手段であり、目的は人間の可能性の解放です。
+        すべての業務をAIが遂行する仮想業務空間。人間は意思決定と創造に集中し、定型業務から完全に解放される。日本の総人件費という巨大市場に、AIネイティブなアプローチで挑む。
       </p>
     </div>
   </section>
@@ -435,6 +436,10 @@ onUnmounted(() => {
   display: block; font-size: 0.75rem; letter-spacing: 0.15em;
   color: #999; text-transform: uppercase; margin-top: 0.4rem;
 }
+.stat-note {
+  display: block; font-size: 0.65rem; color: #bbb; margin-top: 0.3rem;
+  letter-spacing: 0.02em;
+}
 
 /* ===== FEATURES ===== */
 .features {
@@ -470,6 +475,10 @@ onUnmounted(() => {
   font-family: monospace; margin-bottom: 1.2rem; display: block;
 }
 .feat-card h3 { font-size: 1.3rem; font-weight: 600; margin-bottom: 0.8rem; }
+.feat-note {
+  display: inline-block; font-size: 0.65rem; font-weight: 400;
+  color: #bbb; margin-left: 0.4rem; vertical-align: middle;
+}
 .feat-card p { font-size: 0.92rem; line-height: 1.85; color: #666; }
 
 .feat-accent {
