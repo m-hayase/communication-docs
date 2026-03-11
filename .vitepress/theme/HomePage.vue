@@ -2,23 +2,35 @@
 import { ref, onMounted, onUnmounted } from "vue";
 
 const loaded = ref(false);
-const titleChars = ref([]);
+const titleLinesVisible = ref([false, false, false]);
 const subtitleVisible = ref(false);
 const taglineVisible = ref(false);
 const scrollIndicator = ref(false);
 const mouseX = ref(0);
 const mouseY = ref(0);
 
-const title = "SOUL.lock";
-const subtitle = "Still the soul remains";
-const tagline = "After AIにおける新しい社会を作る";
+// ============================
+// テキストデータ（編集はここだけ）
+// ============================
 
+// --- Brand ---
+const logoName = "Soul.lock";
+
+// --- Hero ---
+const brandName = "Still the soul remains";
+const titleLines = ["Soul.lock"];
+const subtitle = "After AI";
+const tagline = "AIで幸福な社会を作る";
+const heroCta = "Talk to us";
+
+// --- Problem ---
+const problemHeading = "AIを受け入れる、\n準備をしよう";
 const problems = [
     {
         icon: "⚡",
         num: "290兆円",
         label: "日本の雇用者報酬",
-        desc: "この巨大市場は未だ人間労働に依存し、構造的な非効率を抱えている",
+        desc: "人件費そのものが潜在市場",
     },
     {
         icon: "📉",
@@ -71,6 +83,42 @@ const advantages = [
     },
 ];
 
+// --- Solution ---
+const solutionHeading = "What we build";
+const solutionSub = "AIが業務を遂行する、まったく新しいワークスペース";
+const screenshotLabel = "Product Preview — Confidential";
+
+// --- Why Us ---
+const whyHeading = "Why SOUL.lock";
+
+// --- Vision ---
+const visionQuote = "人間の魂が宿る仕事だけを、人間がやる世界をつくる";
+const founderName = "Founder Name";
+const founderRole = "Founder & CEO";
+const stageLabel = "Pre-Seed — Building the future of work";
+
+// --- CTA ---
+const ctaHeading = "Let's talk";
+const ctaDesc =
+    "30分のミーティングで、仮想業務空間のデモとビジネスモデルをご説明します";
+const ctaButton = "ミーティングを予約する";
+const ctaEmail = "hello@example.com";
+
+// --- Nav Menu ---
+const navLinks = [
+    { text: "Message", href: "/soul-lock/message" },
+    { text: "Profile", href: "/soul-lock/profile" },
+    { text: "Contact", href: "/soul-lock/contact" },
+];
+
+// --- Footer ---
+const footLogo = "SOUL.lock";
+const footCopy = "© 2026 Soul.lock";
+const footTag = "Still the soul remains";
+const marqueeText = "SOUL.lock — Still the soul remains — ";
+
+// ============================
+
 let observer = null;
 
 function onMouse(e) {
@@ -79,24 +127,24 @@ function onMouse(e) {
 }
 
 function initTitle() {
-    title.split("").forEach((c, i) => {
+    titleLines.forEach((_, i) => {
         setTimeout(
             () => {
-                titleChars.value.push(c);
+                titleLinesVisible.value[i] = true;
             },
-            120 + i * 90,
+            200 + i * 350,
         );
     });
-    const base = 120 + title.length * 90;
+    const base = 200 + titleLines.length * 350;
     setTimeout(() => {
         subtitleVisible.value = true;
-    }, base + 400);
+    }, base + 300);
     setTimeout(() => {
         taglineVisible.value = true;
-    }, base + 900);
+    }, base + 700);
     setTimeout(() => {
         scrollIndicator.value = true;
-    }, base + 1500);
+    }, base + 1200);
 }
 
 function setupObserver() {
@@ -155,20 +203,35 @@ onUnmounted(() => {
             <div class="wisp wC" />
         </div>
 
+        <!-- ========== NAV ========== -->
+        <nav class="top-nav">
+            <span class="nav-logo">{{ logoName }}</span>
+            <div class="nav-links">
+                <a
+                    v-for="(link, i) in navLinks"
+                    :key="i"
+                    :href="link.href"
+                    class="nav-link"
+                    >{{ link.text }}</a
+                >
+            </div>
+        </nav>
+
         <!-- ========== 1. HERO ========== -->
         <section class="slide hero">
             <div class="hero-inner">
                 <p class="hero-label obs">
                     <span class="label-line" />
-                    <span>ソウルロック</span>
+                    <span>{{ brandName }}</span>
                 </p>
                 <h1 class="hero-title">
                     <span
-                        v-for="(c, i) in titleChars"
+                        v-for="(line, i) in titleLines"
                         :key="i"
-                        class="ch"
-                        :style="{ animationDelay: i * 0.04 + 's' }"
-                        >{{ c }}</span
+                        class="title-line"
+                        :class="{ show: titleLinesVisible[i] }"
+                        :style="{ transitionDelay: i * 0.15 + 's' }"
+                        >{{ line }}</span
                     >
                 </h1>
                 <p class="hero-sub" :class="{ show: subtitleVisible }">
@@ -179,7 +242,7 @@ onUnmounted(() => {
                 </p>
                 <div class="hero-cta" :class="{ show: taglineVisible }">
                     <a href="#contact" class="btn-primary">
-                        <span>Talk to us</span>
+                        <span>{{ heroCta }}</span>
                         <svg
                             width="16"
                             height="16"
@@ -204,7 +267,7 @@ onUnmounted(() => {
             <div class="problem-inner">
                 <div class="sec-head obs">
                     <span class="sec-num">001</span>
-                    <h2>人間がAIを受け入れる、<br />準備をしよう</h2>
+                    <h2 v-html="problemHeading.replace('\n', '<br/>')"></h2>
                 </div>
                 <div class="problem-grid">
                     <div
@@ -231,10 +294,8 @@ onUnmounted(() => {
             <div class="solution-inner">
                 <div class="sec-head obs">
                     <span class="sec-num">002</span>
-                    <h2>What we build</h2>
-                    <p class="sec-sub">
-                        AIが業務を遂行する、まったく新しいワークスペース
-                    </p>
+                    <h2>{{ solutionHeading }}</h2>
+                    <p class="sec-sub">{{ solutionSub }}</p>
                 </div>
                 <div class="solution-grid">
                     <div
@@ -264,9 +325,9 @@ onUnmounted(() => {
                                 </div>
                             </div>
                         </div>
-                        <span class="screenshot-label"
-                            >Product Preview — Confidential</span
-                        >
+                        <span class="screenshot-label">{{
+                            screenshotLabel
+                        }}</span>
                     </div>
                 </div>
             </div>
@@ -277,7 +338,7 @@ onUnmounted(() => {
             <div class="why-inner">
                 <div class="sec-head obs">
                     <span class="sec-num">003</span>
-                    <h2>Why SOUL.lock</h2>
+                    <h2>{{ whyHeading }}</h2>
                 </div>
                 <div class="why-grid">
                     <div
@@ -299,34 +360,27 @@ onUnmounted(() => {
             <div class="vision-card glass-panel obs">
                 <span class="sec-num">004</span>
                 <blockquote class="vision-quote">
-                    "人間の魂が宿る仕事だけを、人間がやる世界をつくる"
+                    "{{ visionQuote }}"
                 </blockquote>
                 <div class="founder-row">
                     <div class="founder-avatar" />
                     <div class="founder-info">
-                        <span class="founder-name">Founder Name</span>
-                        <span class="founder-role">Founder & CEO</span>
+                        <span class="founder-name">{{ founderName }}</span>
+                        <span class="founder-role">{{ founderRole }}</span>
                     </div>
                 </div>
-                <p class="vision-stage">
-                    Pre-Seed — Building the future of work
-                </p>
+                <p class="vision-stage">{{ stageLabel }}</p>
             </div>
         </section>
 
         <!-- ========== 6. CTA ========== -->
         <section id="contact" class="slide cta">
             <div class="cta-card glass-panel obs">
-                <h2>Let's talk</h2>
-                <p class="cta-desc">
-                    30分のミーティングで、仮想業務空間のデモと<br />ビジネスモデルをご説明します
-                </p>
+                <h2>{{ ctaHeading }}</h2>
+                <p class="cta-desc">{{ ctaDesc }}</p>
                 <div class="cta-buttons">
-                    <a
-                        href="mailto:hello@example.com"
-                        class="btn-primary btn-lg"
-                    >
-                        <span>ミーティングを予約する</span>
+                    <a :href="`mailto:${ctaEmail}`" class="btn-primary btn-lg">
+                        <span>{{ ctaButton }}</span>
                         <svg
                             width="18"
                             height="18"
@@ -339,7 +393,7 @@ onUnmounted(() => {
                         </svg>
                     </a>
                 </div>
-                <p class="cta-note">hello@example.com</p>
+                <p class="cta-note">{{ ctaEmail }}</p>
             </div>
         </section>
 
@@ -349,19 +403,18 @@ onUnmounted(() => {
                 <div class="marquee-wrap">
                     <div class="marquee-track">
                         <div class="marquee-content">
-                            <span v-for="i in 10" :key="i"
-                                >SOUL.lock — Still the soul remains
-                                —&nbsp;</span
-                            >
+                            <span v-for="i in 10" :key="i">{{
+                                marqueeText
+                            }}</span>
                         </div>
                     </div>
                 </div>
                 <div class="foot-inner glass-panel">
                     <div>
-                        <span class="foot-logo">SOUL.lock</span>
-                        <span class="foot-copy">&copy; 2026 Soul.lock</span>
+                        <span class="foot-logo">{{ footLogo }}</span>
+                        <span class="foot-copy">{{ footCopy }}</span>
                     </div>
-                    <span class="foot-tag">Still the soul remains</span>
+                    <span class="foot-tag">{{ footTag }}</span>
                 </div>
             </footer>
         </section>
@@ -369,6 +422,43 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
+/* ===== NAV ===== */
+.top-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2.5rem;
+    background: rgba(250, 250, 250, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+.nav-logo {
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #111;
+}
+.nav-links {
+    display: flex;
+    gap: 2rem;
+}
+.nav-link {
+    font-size: 0.85rem;
+    color: #888;
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: color 0.3s;
+}
+.nav-link:hover {
+    color: #111;
+}
+
 /* ===== RESET & BASE ===== */
 * {
     margin: 0;
@@ -427,70 +517,70 @@ onUnmounted(() => {
 .soul {
     position: absolute;
     border-radius: 50%;
-    filter: blur(60px);
+    filter: blur(45px);
     transition: transform 0.5s ease-out;
 }
 .soul.sa {
-    width: 500px;
-    height: 500px;
+    width: 550px;
+    height: 550px;
     top: -8%;
     right: 5%;
     background: radial-gradient(
         circle,
-        rgba(147, 51, 234, 0.18) 0%,
-        rgba(79, 70, 229, 0.08) 40%,
+        rgba(147, 51, 234, 0.35) 0%,
+        rgba(79, 70, 229, 0.15) 40%,
         transparent 70%
     );
     animation: soulA 16s ease-in-out infinite;
 }
 .soul.sb {
-    width: 400px;
-    height: 400px;
+    width: 450px;
+    height: 450px;
     bottom: 5%;
     left: -3%;
     background: radial-gradient(
         circle,
-        rgba(59, 130, 246, 0.16) 0%,
-        rgba(6, 182, 212, 0.08) 40%,
+        rgba(59, 130, 246, 0.3) 0%,
+        rgba(6, 182, 212, 0.12) 40%,
         transparent 70%
     );
     animation: soulB 20s ease-in-out infinite;
 }
 .soul.sc {
-    width: 350px;
-    height: 350px;
+    width: 400px;
+    height: 400px;
     top: 35%;
     left: 25%;
     background: radial-gradient(
         circle,
-        rgba(236, 72, 153, 0.15) 0%,
-        rgba(244, 114, 182, 0.07) 40%,
+        rgba(236, 72, 153, 0.28) 0%,
+        rgba(244, 114, 182, 0.12) 40%,
         transparent 70%
     );
     animation: soulC 14s ease-in-out infinite;
 }
 .soul.sd {
-    width: 250px;
-    height: 250px;
+    width: 300px;
+    height: 300px;
     top: 60%;
     right: 15%;
     background: radial-gradient(
         circle,
-        rgba(245, 158, 11, 0.14) 0%,
-        rgba(251, 191, 36, 0.06) 40%,
+        rgba(245, 158, 11, 0.25) 0%,
+        rgba(251, 191, 36, 0.1) 40%,
         transparent 70%
     );
     animation: soulD 18s ease-in-out infinite;
 }
 .soul.se {
-    width: 300px;
-    height: 300px;
+    width: 350px;
+    height: 350px;
     top: 10%;
     left: 45%;
     background: radial-gradient(
         circle,
-        rgba(16, 185, 129, 0.13) 0%,
-        rgba(52, 211, 153, 0.06) 40%,
+        rgba(16, 185, 129, 0.25) 0%,
+        rgba(52, 211, 153, 0.1) 40%,
         transparent 70%
     );
     animation: soulE 22s ease-in-out infinite;
@@ -507,9 +597,9 @@ onUnmounted(() => {
     background: linear-gradient(
         90deg,
         transparent 0%,
-        rgba(147, 51, 234, 0.1) 30%,
-        rgba(79, 70, 229, 0.12) 50%,
-        rgba(147, 51, 234, 0.1) 70%,
+        rgba(147, 51, 234, 0.18) 30%,
+        rgba(79, 70, 229, 0.22) 50%,
+        rgba(147, 51, 234, 0.18) 70%,
         transparent 100%
     );
     border-radius: 50%;
@@ -523,9 +613,9 @@ onUnmounted(() => {
     background: linear-gradient(
         90deg,
         transparent 0%,
-        rgba(59, 130, 246, 0.08) 30%,
-        rgba(236, 72, 153, 0.1) 50%,
-        rgba(59, 130, 246, 0.08) 70%,
+        rgba(59, 130, 246, 0.15) 30%,
+        rgba(236, 72, 153, 0.18) 50%,
+        rgba(59, 130, 246, 0.15) 70%,
         transparent 100%
     );
     border-radius: 50%;
@@ -539,9 +629,9 @@ onUnmounted(() => {
     background: linear-gradient(
         90deg,
         transparent 0%,
-        rgba(16, 185, 129, 0.07) 30%,
-        rgba(245, 158, 11, 0.09) 50%,
-        rgba(16, 185, 129, 0.07) 70%,
+        rgba(16, 185, 129, 0.13) 30%,
+        rgba(245, 158, 11, 0.16) 50%,
+        rgba(16, 185, 129, 0.13) 70%,
         transparent 100%
     );
     border-radius: 50%;
@@ -718,30 +808,26 @@ onUnmounted(() => {
     background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.25));
 }
 .hero-title {
-    font-size: clamp(3.5rem, 10vw, 8rem);
+    font-size: clamp(2.8rem, 8vw, 6rem);
     font-weight: 700;
-    letter-spacing: -0.04em;
-    line-height: 1;
-    margin-bottom: 1.5rem;
-    min-height: 1.1em;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    margin-bottom: 2rem;
 }
-.ch {
-    display: inline-block;
-    animation: charReveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
-    color: #111;
-    -webkit-text-fill-color: #111;
+.title-line {
+    display: block;
+    opacity: 0;
+    transform: translateY(40px);
+    filter: blur(8px);
+    transition:
+        opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 1s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 1s cubic-bezier(0.16, 1, 0.3, 1);
 }
-@keyframes charReveal {
-    from {
-        opacity: 0;
-        transform: translateY(50px) scale(0.8);
-        filter: blur(12px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-        filter: blur(0);
-    }
+.title-line.show {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
 }
 .hero-sub {
     font-size: clamp(1.05rem, 2.2vw, 1.5rem);

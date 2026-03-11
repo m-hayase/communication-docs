@@ -7,9 +7,9 @@ export default defineConfig({
   lang: 'ja',
   themeConfig: {
     nav: [
-      { text: 'Features', link: '/features/' },
-      { text: 'Changelog', link: '/changelog' },
-      { text: 'Roadmap', link: '/roadmap' },
+      { text: 'Message', link: '/message' },
+      { text: 'Profile', link: '/profile' },
+      { text: 'Contact', link: '/contact' },
     ],
     sidebar: {
       '/features/': [
