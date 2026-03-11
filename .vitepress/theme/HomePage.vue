@@ -204,7 +204,7 @@ onUnmounted(() => {
             <div class="problem-inner">
                 <div class="sec-head obs">
                     <span class="sec-num">001</span>
-                    <h2>日本企業の業務は、<br />まだ人間に依存している</h2>
+                    <h2>人間がAIを受け入れる、<br />準備をしよう</h2>
                 </div>
                 <div class="problem-grid">
                     <div
@@ -861,7 +861,7 @@ onUnmounted(() => {
     font-size: 0.75rem;
     letter-spacing: 0.12em;
     color: #999;
-    margin-top: 0.3rem;
+    margin-top: 1.3rem;
     text-transform: uppercase;
 }
 .problem-desc {
