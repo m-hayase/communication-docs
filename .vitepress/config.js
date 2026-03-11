@@ -1,7 +1,7 @@
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
-  title: 'Communication',
+  title: 'SOUL.lock',
   description: 'AI-Powered Business Platform',
   base: '/communication-docs/',
   lang: 'ja',

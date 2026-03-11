@@ -1,7 +1,7 @@
 ---
 layout: home
 hero:
-  name: Communication
+  name: SOUL.lock
   text: Still the soul remains
   tagline: After AIにおける新しい社会を作る
   actions:
