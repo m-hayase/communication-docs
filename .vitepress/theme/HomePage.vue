@@ -93,7 +93,7 @@ const whyHeading = "Why SOUL.lock";
 
 // --- Vision ---
 const visionQuote = "人間の魂が宿る仕事だけを、人間がやる世界をつくる";
-const founderName = "Founder Name";
+const founderName = "早瀬 基二";
 const founderRole = "Founder & CEO";
 const stageLabel = "Pre-Seed — Building the future of work";
 
